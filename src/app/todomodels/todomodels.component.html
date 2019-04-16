@@ -1,0 +1,14 @@
+<div *ngIf="todomodel">
+
+<h2>{{todomodel.name | uppercase}} Details</h2>
+<div><span>id: </span>{{todomodel.id}}</div>
+<!--<div><span>name: </span>{{todomodel.name}}</div>-->
+<div>
+  <label>name:
+    <input [(ngModel)]="todomodel.name" placeholder="name"/>
+  </label>
+</div>
+<!--<div><span>succes: </span>{{todomodel.succes}}</div>-->
+
+</div>
+<button (click)="getTodo()">get todo</button>

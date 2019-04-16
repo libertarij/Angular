@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Test JS</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<table border="1" cellpadding="1" align="left">
+  <tr>
+    <th>
+      <table border="0" cellpadding="1" align="left">
+
+        <tr>
+          <th>
+            <div align="right">
+              <text name="lSummUsdText" id="lSummUsd" value="Киоличество USD:">Количество USD:</text>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="summUsdText" id="summUsd" placeholder="Введите сумму USD" value=1></input>
+            </div>
+          </th>
+        </tr>
+
+        <tr>
+          <th colspan="2">
+            <div align="centr">
+              <button onclick="GetUsdCur()" formmethod="get">Рассчитать</button>
+            </div>
+          </th>
+        </tr>
+
+        <tr>
+          <th>
+            <div align="right">
+              <text name="lCurUsdText" id="lCurUsd" value="Курс доллара:">Курс доллара:</text>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="curUsdText" id="curUsd" placeholder="Курс USD"></input>
+            </div>
+          </th>
+        </tr>
+
+        <tr>
+          <th>
+            <div align="right">
+              <text name="lTatalBynText" id="lToatlByn" value="Сумма BYN:">Сумма BYN:</text>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="summBynText" id="summaByn" placeholder="Сумма BYN"></input>
+            </div>
+          </th>
+        </tr>
+      </table>
+    </th>
+  </tr>
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<table border="1" cellpadding="1" align="left">
+  <tr>
+    <th>
+      <table>
+        <tr>
+          <th>
+            <div align="centr">
+              <button onclick="GetTodo()" formmethod="get">Пролучить Todo</button>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoIdInText" id="todoIdIn" placeholder="Введите ID"></input>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoIdText" id="todoIdTx" placeholder="ID"></input>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoNameText" id="todoNameTx" placeholder="Name"></input>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoSuccessText" id="todoSuccessTx" placeholder="Success"></input>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <div align="centr">
+              <button onclick="PostTodo()" formmethod="Post">Добавить Todo</button>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoAddNameText" id="todoAddNameTx" placeholder="Name"></input>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoAddSuccessText" id="todoAddSuccessTx" placeholder="Success"></input>
+            </div>
+          </th>
+          <tr>
+            <th>
+              <div align="centr">
+                <button onclick="DeleteTodo()" formmethod="Delete">Удалить Todo</button>
+              </div>
+            </th>
+            <th>
+              <div align="left">
+                <input type="text" name="todoDeleteText" id="todoDeleteIdTx" placeholder="Id"></input>
+              </div>
+            </th>
+          </tr>
+        <tr>
+          <th>
+            <div align="centr">
+              <button onclick="PutTodo()" formmethod="put">Изменить Todo</button>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoIdPutText" id="todoIdPut" placeholder="Введите ID"></input>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoNamePutText" id="todoNamePut" placeholder="Введите Name"></input>
+            </div>
+          </th>
+          <th>
+            <div align="left">
+              <input type="text" name="todoSuccessPutText" id="todoSuccessPut" placeholder="Введите Success"></input>
+            </div>
+          </th>
+        </tr>
+      </table>
+    </th>
+  </tr>
+</table>
+
+
+  <script>
+    async function GetUsdCur() {
+      console.log('GetUsdCur start');
+      try {
+        var curUsd = document.querySelector('#curUsd');
+        var summUsd = document.querySelector('#summUsd');
+        var summaByn = document.querySelector('#summaByn');
+
+        const response = await fetch('http://localhost:8080/todos/nbrb/usd');
+        var cur = await response.text();
+        console.log('response text', cur);
+        curUsd.value = cur;
+        summaByn.value = curUsd.value*summUsd.value;
+        console.log('response r', cur);
+        document.querySelector('button').style.backgroundColor = 'yellow';
+      } catch(err1x) {
+        console.error('error GetUsdCur', err1x);
+      }
+      console.log('GetUsdCur finish');
+    }
+
+
+
+    async function GetTodo() {
+      // var todomodelArr = new Set();
+      console.log('GetTodo start');
+    try {
+      console.log('todoIdIn.value = ',todoIdIn.value)
+
+      if(todoIdIn.value ==""){
+        var url = 'http://localhost:8080/todos/';
+        const responseJson = await fetch(url);
+        var todoJson = await responseJson.text();
+        console.log('GetTodo add in todoNameTx',todoJson);
+        todoNameTx.value = await todoJson;
+      }else{
+        var url = 'http://localhost:8080/todos/' + todoIdIn.value;
+        const responseJson = await fetch(url);
+        var todoJson = await responseJson.json();
+        console.log('GetTodo add in todoNameTx',todoJson);
+        todoIdTx.value = await todoJson['id'];
+        todoNameTx.value = await todoJson['name'];
+        todoSuccessTx.value = await todoJson['success'];
+      }
+    }catch (err1x) {
+      console.error('error clickButton', err1x);
+    }
+      console.log('GetTodo finish',todoJson);
+    }
+
+    async function PostTodo() {
+      console.log('PostTodo start');
+      try {
+        var xhrPost = new XMLHttpRequest();
+        xhrPost.open("POST", 'http://localhost:8080/todos/', true);
+        xhrPost.setRequestHeader("Content-type", "application/json");
+        xhrPost.onreadystatechange = function () {
+          if (xhrPost.readyState === 4 && xhrPost.status === 200) {
+            var jsonPost = JSON.parse(xhrPost.responseText);
+            console.log(jsonPost.name + ", " + jsonPost.success);
+          }
+        };
+        var dataPost = JSON.stringify({"name": todoAddNameTx.value, "success": todoAddSuccessTx.value});
+        xhrPost.send(dataPost);
+      }catch (err1x) {
+        console.error('error PostTodo', err1x);
+      }
+      console.log('PostTodo finish');
+    }
+
+    async function DeleteTodo() {
+      console.log('DeleteTodo start');
+      try {
+        var xhrDelete = new XMLHttpRequest();
+        xhrDelete.open("DELETE", 'http://localhost:8080/todos/'+todoDeleteIdTx.value);
+        xhrDelete.send('');
+      }catch (err1x) {
+        console.error('error DeleteTodo', err1x);
+      }
+      console.log('DeleteTodo finish');
+    }
+
+    async function PutTodo() {
+      console.log('PutTodo start');
+      try {
+        var xhrPut = new XMLHttpRequest();
+        xhrPut.open("PUT", 'http://localhost:8080/todos/', true);
+        xhrPut.setRequestHeader("Content-type", "application/json");
+        xhrPut.onreadystatechange = function () {
+          if (xhrPut.readyState === 4 && xhrPut.status === 200) {
+            console.log('response text PutTodo',JSON.stringify({"id": todoIdPut.value, "name": todoNamePut.value, "success": todoSuccessPut.value}));
+            // var jsonPut = JSON.parse(xhrPut.responseText);
+            // console.log(jsonPut.id + ", " + jsonPut.name + ", " + jsonPut.success);
+          }
+        };
+        var dataPut = JSON.stringify({"id": todoIdPut.value, "name": todoNamePut.value, "success": todoSuccessPut.value});
+        xhrPut.send(dataPut);
+      }catch (err1x) {
+        console.error('error PutTodo', err1x);
+      }
+      console.log('PutTodo finish');
+    }
+
+  </script>
+</body>
+</html>
+
+
+<!--<div>-->
+  <!--<button onclick="clickButton()">click me</button>-->
+  <!--<div id="currency"></div>-->
+<!--</div>-->
+
+<!--<script>-->
+  <!--async function clickButton() {-->
+    <!--console.log('clickButton start');-->
+    <!--try {-->
+      <!--const response = await fetch('http://localhost:8080/todos/nbrb/usd');-->
+      <!--const txt = await response.text();-->
+      <!--console.log('response text', txt);-->
+      <!--const currencyElement = document.querySelector('#currency');-->
+      <!--currencyElement.innerHTML = txt;-->
+      <!--document.querySelector('button').style.backgroundColor = 'green';-->
+    <!--} catch(err1x) {-->
+      <!--console.error('error', err1x);-->
+    <!--}-->
+    <!--console.log('clickButton finish');-->
+  <!--}-->
+<!--</script>-->
+
+<!--// async function onchange(e){-->
+<!--//   console.log('Start change TXT');-->
+<!--//   try {-->
+<!--//     var curUsd = document.querySelector('#curUsd');-->
+<!--//     console.log(val);-->
+<!--//     var val = e.target.value;-->
+<!--//     curUsd.textContent = val;-->
+<!--//   } catch(err1x) {-->
+<!--//     console.error('error onchange', err1x);-->
+<!--//   }-->
+<!--//   console.log('Stop change TXT');-->
+<!--// }-->

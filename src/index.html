@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Angular</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+
+<body>
+
+<table border="0" cellpadding="1" align="left">
+
+  <tr>
+    <th>
+      <div align="right">
+        <text name="lSummUsdText" id="lSummUsd" value="Киоличество USD:">Количество USD:</text>
+      </div>
+    </th>
+    <th>
+      <div align="left">
+        <input type="text" name="summUsdText" id="summUsd" placeholder="Введите сумму USD" value=1></input>
+      </div>
+    </th>
+  </tr>
+
+  <tr>
+    <th colspan="2">
+      <div align="centr">
+        <button onclick="clickButton()" formmethod="get">Рассчитать</button>
+      </div>
+    </th>
+  </tr>
+
+  <tr>
+    <th>
+      <div align="right">
+        <text name="lCurUsdText" id="lCurUsd" value="Курс доллара:">Курс доллара:</text>
+      </div>
+    </th>
+    <th>
+      <div align="left">
+        <input type="text" name="curUsdText" id="curUsd" placeholder="Курс USD"></input>
+      </div>
+    </th>
+  </tr>
+
+  <tr>
+    <th>
+      <div align="right">
+        <text name="lTatalBynText" id="lToatlByn" value="Сумма BYN:">Сумма BYN:</text>
+      </div>
+    </th>
+    <th>
+      <div align="left">
+        <input type="text" name="summBynText" id="summaByn" placeholder="Сумма BYN"></input>
+      </div>
+    </th>
+  </tr>
+
+</table>
+
+
+<script>
+  async function clickButton() {
+    console.log('clickButton start Cur USD');
+    try {
+      var curUsd = document.querySelector('#curUsd');
+      var summUsd = document.querySelector('#summUsd');
+      var summaByn = document.querySelector('#summaByn');
+
+      const response = await fetch('http://localhost:8080/todos/nbrb/usd');
+      var cur = await response.text();
+      // const cur = await response.int();
+      console.log('response text', cur);
+      // var val = txt;
+      curUsd.value = cur;
+      summaByn.value = curUsd.value*summUsd.value;
+      console.log('response r', cur);
+      document.querySelector('button').style.backgroundColor = 'yellow';
+
+
+    } catch(err1x) {
+      console.error('error clickButton', err1x);
+    }
+    console.log('clickButton finish Cur USD');
+  }
+</script>
+</body>
+<body>
+<app-root></app-root>
+</body>
+
+
+
+</html>
+
+
+<!--<body>-->
+<!--<body>-->
+<!--<div>-->
+<!--<button onclick="clickButton()">Cur USD</button>-->
+<!--<div id="currency"></div>-->
+<!--</div>-->
+<!--<form name="cur">-->
+<!--<input type="text" name="curUsdText" id="curUsdText" size="15" value=''>-->
+<!--</form>-->
+<!--<div id="curUsd"></div>-->
+
+
+
+<!--<script>-->
+<!--var curUsd = document.cur.curUsdText;-->
+<!--console.log('Print curUsd', curUsd.size);-->
+
+<!--async function onchange(e){-->
+<!--console.log('Start change TXT');-->
+<!--try {-->
+<!--var curUsd = document.getElementById("curUsd");-->
+<!--console.log(val);-->
+<!--var val = e.target.value;-->
+<!--curUsd.textContent = val;-->
+<!--} catch(err1x) {-->
+<!--console.error('error onchange', err1x);-->
+<!--}-->
+<!--console.log('Stop change TXT');-->
+<!--}-->
+
+
+<!--async function clickButton() {-->
+<!--console.log('clickButton start Cur USD');-->
+<!--try {-->
+<!--const response = await fetch('http://localhost:8080/todos/nbrb/usd');-->
+<!--const txt = await response.text();-->
+<!--console.log('response text', txt);-->
+<!--var val = txt;-->
+
+
+<!--console.log(curUsd.getAttributeNames());-->
+<!--// curUsd.valueOf() = '11';-->
+
+<!--curUsd.addEventListener("change", onchange);-->
+
+
+<!--const currencyElement = document.querySelector('#currency');-->
+<!--currencyElement.innerHTML = txt;-->
+<!--document.querySelector('button').style.backgroundColor = 'green';-->
+<!--} catch(err1x) {-->
+<!--console.error('error clickButton', err1x);-->
+<!--}-->
+<!--console.log('clickButton finish Cur USD');-->
+<!--}-->
+<!--</script>-->
+
+<!--</body>-->
+<!--<app-root></app-root>-->
+<!--</body>-->
